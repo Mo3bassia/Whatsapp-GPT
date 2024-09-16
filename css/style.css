@@ -1,0 +1,119 @@
+/* الخلفية */
+body {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+/* تنسيقات عامة */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.container {
+  width: 100%;
+  max-width: 600px;
+  height: 80vh;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* صندوق الشات */
+.container .chat {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.container .chat p {
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  font-size: 16px;
+  max-width: 75%;
+  word-break: break-word;
+}
+
+.container .chat p.userMsg {
+  align-self: flex-end;
+  background-color: #dcf8c6; /* لون خلفية الرسائل المرسلة من المستخدم */
+  color: #000; /* لون نص الرسائل المرسلة من المستخدم */
+}
+
+.container .chat p.chatMsg {
+  align-self: flex-start;
+  background-color: #ece5dd; /* لون خلفية الرسائل المستلمة */
+  color: #000; /* لون نص الرسائل المستلمة */
+}
+
+/* منطقة الإرسال */
+.send {
+  display: flex;
+  padding: 10px;
+  background-color: #fff;
+  border-top: 1px solid #ddd;
+}
+
+.send textarea {
+  flex-grow: 1;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  resize: none;
+  outline: none;
+  margin-right: 10px;
+}
+
+.send button {
+  padding: 10px 20px;
+  font-size: 14px;
+  border: none;
+  border-radius: 8px;
+  background-color: #25d366;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.send button:hover {
+  background-color: #128c7e;
+}
+
+.send button.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* تنسيقات شريط التمرير */
+.container .chat::-webkit-scrollbar {
+  width: 8px; /* عرض شريط التمرير */
+}
+
+.container .chat::-webkit-scrollbar-track {
+  background: #f1f1f1; /* لون مسار شريط التمرير */
+  border-radius: 10px;
+}
+
+.container .chat::-webkit-scrollbar-thumb {
+  background: #888; /* لون مقبض شريط التمرير */
+  border-radius: 10px;
+}
+
+.container .chat::-webkit-scrollbar-thumb:hover {
+  background: #555; /* لون مقبض شريط التمرير عند التحويم */
+}

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WhatsApp ChatGPT</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="chat"></div>
+      <div class="send">
+        <textarea
+          placeholder="Input Your Message"
+          name=""
+          id=""
+          class="input"
+        ></textarea>
+        <button class="sendBtn">Send</button>
+      </div>
+    </div>
+    <script>
+      let input = document.querySelector(".input");
+      let sendBtn = document.querySelector(".sendBtn");
+      let chat = document.querySelector(".chat");
+
+      function checkEmpty() {
+        if (input.value == "") {
+          input.placeholder = "Input can't be empty";
+          input.focus();
+        } else {
+          getMsg();
+        }
+      }
+
+      function getMsg() {
+        let msg = input.value;
+
+        let userMsg = document.createElement("p");
+        userMsg.classList.add("userMsg");
+        chat.append(userMsg);
+
+        let bdi = document.createElement("bdi");
+        userMsg.append(bdi);
+        bdi.textContent = input.value;
+
+        input.value == "";
+        sendBtn.setAttribute("disabled", "disabled");
+        sendBtn.classList.add("disabled");
+
+        let request = new XMLHttpRequest();
+        request.open(
+          "POST",
+          `https://chat-gtp-free.p.rapidapi.com/v1/chat/completions`
+        );
+
+        request.responseType = "json";
+
+        request.setRequestHeader(
+          "X-RapidAPI-Host",
+          "chat-gtp-free.p.rapidapi.com"
+        );
+
+        request.setRequestHeader(
+          "x-rapidapi-key",
+          "9b893f4634msh2ad8a0054b0d319p1b5735jsn48da6a16502f"
+        );
+
+        request.setRequestHeader("Content-Type", "application/json");
+
+        let bodyParams = {
+          chatId: "92d97036-3e25-442b-9a25-096ab45b0525",
+          messages: [
+            {
+              role: "system",
+              content:
+                "You are a virtual assistant. Your name is ChatGpt and i can help you in what you want.",
+            },
+          ],
+        };
+        if (document.querySelectorAll(".userMsg").length == 1) {
+          let obj = {};
+          obj.rule = "user";
+          obj.content = input.value;
+          bodyParams.messages.push(obj);
+        }
+        if (document.querySelectorAll(".userMsg").length > 1) {
+          for (
+            let i = 0;
+            i < document.querySelectorAll(".userMsg").length;
+            i++
+          ) {
+            let obj = {};
+            obj.rule = "user";
+            obj.content = document.querySelectorAll(".userMsg")[i].textContent;
+            bodyParams.messages.push(obj);
+
+            console.log(bodyParams);
+          }
+        }
+
+        request.send(JSON.stringify(bodyParams));
+
+        request.onload = function () {
+          if (this.status === 200) {
+            let response = this.response;
+            // console.log(this.response);
+
+            let chatMsg = document.createElement("p");
+
+            let bdi = document.createElement("bdi");
+            chatMsg.append(bdi);
+            bdi.innerHTML = response.text.replaceAll("\n", "<br>");
+
+            chatMsg.classList.add("chatMsg");
+            chat.append(chatMsg);
+            sendBtn.removeAttribute("disabled");
+            sendBtn.classList.remove("disabled");
+
+            input.value = "";
+            input.focus();
+          }
+        };
+
+        // console.log("Hello");
+      }
+
+      sendBtn.onclick = function () {
+        checkEmpty();
+      };
+    </script>
+  </body>
+</html>
